@@ -1,9 +1,9 @@
-@file:OptIn(ExperimentalWasmDsl::class)
+//@file:OptIn(ExperimentalWasmDsl::class)
 
 import org.gradle.internal.os.OperatingSystem
 import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.internal.file.archive.compression.*
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+//import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.testing.internal.KotlinTestReport
@@ -13,7 +13,8 @@ import java.nio.file.Files
 import java.util.Locale
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    kotlin("multiplatform") version "2.0.255-SNAPSHOT"
+//    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.undercouchDownload) apply false
 }
 
@@ -25,6 +26,7 @@ buildscript {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -46,10 +48,10 @@ kotlin {
 // Uncomment following block to turn off using the Exception Handling proposal.
 // Note, with this option, the compiler will generate `unreachable` instruction instead of throw, 
 // and a Wasm module will stop execution in this case.
-//
-// tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile>().configureEach {
-//     compilerOptions.freeCompilerArgs.addAll(listOf("-Xwasm-use-traps-instead-of-exceptions"))
-// }
+
+ tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile>().configureEach {
+     compilerOptions.freeCompilerArgs.addAll(listOf("-Xwasm-use-traps-instead-of-exceptions"))
+ }
 
 // Uncomment following block to force using the final version of the Exception Handling proposal.
 // Note, the new opcodes are not supported yet in WAMR and Node.js
